@@ -194,10 +194,8 @@ public class CustomChunkGenerator extends ChunkGenerator {
     @Override
     public void spawnOriginalMobs(WorldGenRegion region) {}
 
-    @Override
     public int getGenDepth() { return MAX_HEIGHT - MIN_HEIGHT; }
 
-    @Override
     public CompletableFuture<ChunkAccess> createBiomes(Executor executor, RandomState randomState,
                                                         Blender blender,
                                                         ChunkAccess chunk) {
