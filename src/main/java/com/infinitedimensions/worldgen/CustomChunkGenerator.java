@@ -211,13 +211,11 @@ public class CustomChunkGenerator extends ChunkGenerator {
     @Override
     public int getMinY() { return MIN_HEIGHT; }
 
-    @Override
     public int getBaseHeight(int x, int z, Heightmap.Types type,
                               LevelHeightAccessor level, RandomState randomState) {
         return getTerrainHeight(x, z);
     }
 
-    @Override
     public net.minecraft.world.level.NoiseColumn getBaseColumn(int x, int z,
                                                                 LevelHeightAccessor level,
                                                                 RandomState randomState) {
