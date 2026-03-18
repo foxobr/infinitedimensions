@@ -203,8 +203,7 @@ public class CustomChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public void applyBiomeDecoration(WorldGenRegion region, ChunkAccess chunk,
-                                      StructureManager structureManager) {}
+    public void applyBiomeDecoration(WorldGenRegion region, StructureManager structureManager) {}
 
     @Override
     public int getSeaLevel() { return SEA_LEVEL; }
