@@ -16,7 +16,7 @@ import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.blending.Blender;
-import net.minecraft.world.level.levelgen.structure.StructureManager;
+import net.minecraft.world.level.StructureManager;
 
 import java.util.List;
 import java.util.Random;
@@ -199,7 +199,7 @@ public class CustomChunkGenerator extends ChunkGenerator {
 
     @Override
     public CompletableFuture<ChunkAccess> createBiomes(Executor executor, RandomState randomState,
-                                                        Blender blender, StructureManager structureManager,
+                                                        Blender blender,
                                                         ChunkAccess chunk) {
         return CompletableFuture.completedFuture(chunk);
     }

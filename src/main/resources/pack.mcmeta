@@ -1,8 +1,6 @@
 {
   "pack": {
-    "description": {
-      "text": "${mod_id} resources"
-    },
+    "description": "Infinite Dimensions Mod Resources",
     "pack_format": 15
   }
 }

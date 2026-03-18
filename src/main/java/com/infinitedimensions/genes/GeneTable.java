@@ -168,8 +168,8 @@ public class GeneTable {
 
     // ---------- Builders internos ----------
 
-    private static void reg(String id, int... geneValues) {
-        TABLE.put(id, ItemGenes.of(geneValues));
+    private static void reg(String id, int[]... genes) {
+        TABLE.put(id, ItemGenes.of(genes));
     }
 
     // Convenções: cada método retorna o par (índice, valor) para o gene

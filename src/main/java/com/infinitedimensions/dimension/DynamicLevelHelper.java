@@ -31,27 +31,42 @@ import java.util.Map;
  */
 public class DynamicLevelHelper {
 
-    private static Field levelsField = null;
-    private static Field execField   = null;
+    private static Field levelsField      = null;
+    private static Field execField        = null;
+    private static Field storageField     = null;
 
     static {
         try {
-            // Campo privado Map<ResourceKey<Level>, ServerLevel> levels
             levelsField = MinecraftServer.class.getDeclaredField("levels");
             levelsField.setAccessible(true);
-
-            // Executor para carregamento de chunks
-            execField = MinecraftServer.class.getDeclaredField("executor");
-            execField.setAccessible(true);
         } catch (NoSuchFieldException e) {
-            // Fallback: tenta com nome ofuscado (caso SRG mapping)
             try {
-                // Nome SRG em 1.20.1 via ForgeGradle: f_129744_ (levels)
                 levelsField = MinecraftServer.class.getDeclaredField("f_129744_");
                 levelsField.setAccessible(true);
             } catch (NoSuchFieldException ex) {
                 InfiniteDimensions.LOGGER.error("[DynamicLevelHelper] Could not find levels field! Dynamic dimensions will fail.");
             }
+        }
+
+        // executor (campo privado)
+        for (String name : new String[]{"executor", "f_129751_"}) {
+            try {
+                execField = MinecraftServer.class.getDeclaredField(name);
+                execField.setAccessible(true);
+                break;
+            } catch (NoSuchFieldException ignored) {}
+        }
+
+        // storageSource (campo protegido em MinecraftServer pai)
+        for (Class<?> cls = MinecraftServer.class; cls != null; cls = cls.getSuperclass()) {
+            for (String name : new String[]{"storageSource", "f_129743_"}) {
+                try {
+                    storageField = cls.getDeclaredField(name);
+                    storageField.setAccessible(true);
+                    break;
+                } catch (NoSuchFieldException ignored) {}
+            }
+            if (storageField != null) break;
         }
     }
 
@@ -80,11 +95,26 @@ public class DynamicLevelHelper {
                 worldData.overworldData()
             );
 
+            // Acessa campos privados via reflection
+            java.util.concurrent.Executor executor = execField != null
+                ? (java.util.concurrent.Executor) execField.get(server)
+                : java.util.concurrent.ForkJoinPool.commonPool();
+
+            net.minecraft.world.level.storage.LevelStorageSource.LevelStorageAccess storage =
+                storageField != null
+                ? (net.minecraft.world.level.storage.LevelStorageSource.LevelStorageAccess) storageField.get(server)
+                : null;
+
+            if (storage == null) {
+                InfiniteDimensions.LOGGER.error("[DynamicLevelHelper] Could not access storageSource, skipping.");
+                return;
+            }
+
             // Cria o ServerLevel — construtor principal do 1.20.1
             ServerLevel newLevel = new ServerLevel(
                 server,
-                server.executor,
-                server.storageSource,
+                executor,
+                storage,
                 derivedData,
                 key,
                 new LevelStem(
@@ -124,7 +154,7 @@ public class DynamicLevelHelper {
     private static class NoopChunkProgressListener implements ChunkProgressListener {
         @Override public void updateSpawnPos(ChunkPos center) {}
         @Override public void onStatusChange(ChunkPos pos,
-            net.minecraft.world.level.chunk.status.ChunkStatus status) {}
+            net.minecraft.world.level.chunk.ChunkStatus status) {}
         @Override public void start() {}
         @Override public void stop() {}
     }
