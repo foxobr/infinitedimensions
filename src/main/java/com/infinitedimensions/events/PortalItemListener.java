@@ -178,7 +178,7 @@ public class PortalItemListener {
             double vy = (Math.random() - 0.5) * 0.3;
             double vz = (Math.random() - 0.5) * 0.3;
             
-            overworld.sendParticles(
+            level.sendParticles(
                 net.minecraft.core.particles.ParticleTypes.ENCHANT,
                 x, y, z,
                 1, vx, vy, vz,
