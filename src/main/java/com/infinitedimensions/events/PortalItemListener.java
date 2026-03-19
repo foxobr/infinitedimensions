@@ -171,6 +171,8 @@ public class PortalItemListener {
         // Ponto de spawn na dimensão: centro do chunk 0,0, acima do terreno
         BlockPos spawnPos = findSafeSpawn(targetLevel);
 
+        ServerLevel playerLevel = (ServerLevel) player.level();
+
         // Efeito antes de teleportar
         double px = player.getX();
         double py = player.getY();
@@ -179,7 +181,7 @@ public class PortalItemListener {
             double x = px + (Math.random() - 0.5) * 2;
             double y = py + (Math.random() - 0.5) * 2;
             double z = pz + (Math.random() - 0.5) * 2;
-            player.level().sendParticles(
+            playerLevel.sendParticles(
                 net.minecraft.core.particles.ParticleTypes.PORTAL,
                 x, y, z, 1, 0, 0, 0, 0.5
             );
@@ -207,7 +209,7 @@ public class PortalItemListener {
         }
 
         // Som na partida
-        player.level().playSound(
+        playerLevel.playSound(
             null,
             player.getX(), player.getY(), player.getZ(),
             net.minecraft.sounds.SoundEvents.ENDERMAN_TELEPORT,
