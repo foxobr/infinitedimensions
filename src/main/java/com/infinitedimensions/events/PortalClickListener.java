@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.Mod;
  * uma nova dimensão é criada e o jogador é teleportado.
  */
 @Mod.EventBusSubscriber(modid = InfiniteDimensions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class PortalClickListener_Simple {
+public class PortalClickListener {
 
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
