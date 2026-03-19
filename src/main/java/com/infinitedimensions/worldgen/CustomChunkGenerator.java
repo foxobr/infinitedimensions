@@ -170,7 +170,6 @@ public class CustomChunkGenerator extends ChunkGenerator {
 
     // ── Stubs obrigatórios do ChunkGenerator ──
 
-    @Override
     protected Codec<? extends ChunkGenerator> codec() {
         // Não precisamos de codec para geração dinâmica
         return net.minecraft.world.level.levelgen.FlatLevelSource.CODEC.xmap(
@@ -178,20 +177,17 @@ public class CustomChunkGenerator extends ChunkGenerator {
         );
     }
 
-    @Override
     public void applyCarvers(WorldGenRegion region, long seed, RandomState randomState,
                               BiomeManager biomeManager, StructureManager structureManager,
                               ChunkAccess chunk, GenerationStep.Carving step) {
         // Cavernas já geradas em fillFromNoise
     }
 
-    @Override
     public void buildSurface(WorldGenRegion region, StructureManager structureManager,
                               RandomState randomState, ChunkAccess chunk) {
         // Superfície gerada em fillFromNoise
     }
 
-    @Override
     public void spawnOriginalMobs(WorldGenRegion region) {}
 
     public int getGenDepth() { return MAX_HEIGHT - MIN_HEIGHT; }
@@ -202,13 +198,10 @@ public class CustomChunkGenerator extends ChunkGenerator {
         return CompletableFuture.completedFuture(chunk);
     }
 
-    @Override
     public void applyBiomeDecoration(WorldGenRegion region, StructureManager structureManager) {}
 
-    @Override
     public int getSeaLevel() { return SEA_LEVEL; }
 
-    @Override
     public int getMinY() { return MIN_HEIGHT; }
 
     public int getBaseHeight(int x, int z, Heightmap.Types type,
@@ -227,7 +220,6 @@ public class CustomChunkGenerator extends ChunkGenerator {
         return new net.minecraft.world.level.NoiseColumn(MIN_HEIGHT, states);
     }
 
-    @Override
     public void addDebugScreenInfo(java.util.List<String> info, RandomState randomState,
                                     BlockPos pos) {
         info.add("InfiniteDim: " + params.name + " | seed=" + params.seed);
