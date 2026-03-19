@@ -175,7 +175,7 @@ public class PortalItemListener {
             double z = portalPos.getZ() + 0.5 + (Math.random() - 0.5) * 2;
             
             level.sendParticles(
-                net.minecraft.core.particles.ParticleTypes.AMETHYST,
+                net.minecraft.core.particles.ParticleTypes.DUST,
                 x, y, z,
                 1, 0, 0.1, 0, 0.3
             );

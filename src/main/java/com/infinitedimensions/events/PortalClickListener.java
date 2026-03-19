@@ -33,7 +33,7 @@ public class PortalClickListener {
 
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         if (!(player instanceof ServerPlayer serverPlayer)) return;
 
         Level level = player.level();
@@ -182,14 +182,14 @@ public class PortalClickListener {
             );
         }
 
-        // Partículas de amethyst (roxa)
+        // Partículas de amethyst (roxa/violeta)
         for (int i = 0; i < 20; i++) {
             double x = portalPos.getX() + 0.5 + (Math.random() - 0.5) * 2;
             double y = portalPos.getY() + 0.5 + (Math.random() - 0.5) * 2;
             double z = portalPos.getZ() + 0.5 + (Math.random() - 0.5) * 2;
             
             level.sendParticles(
-                net.minecraft.core.particles.ParticleTypes.AMETHYST,
+                net.minecraft.core.particles.ParticleTypes.DUST,
                 x, y, z,
                 1, 0, 0.1, 0, 0.3
             );
@@ -224,8 +224,12 @@ public class PortalClickListener {
         // Encontra o terreno a partir da altura
         for (int y = level.getMaxBuildHeight() - 1; y > level.getMinBuildHeight(); y--) {
             BlockPos checkPos = new BlockPos(spawnPos.getX(), y, spawnPos.getZ());
-            if (!level.getBlockState(checkPos).getMaterial().isReplaceable()) {
-                return checkPos.above(2);
+            BlockPos abovePos = checkPos.above();
+            
+            // Se o bloco atual é sólido e o acima está vazio, é um lugar seguro
+            if (!level.getBlockState(checkPos).isAir() && 
+                level.getBlockState(abovePos).isAir()) {
+                return abovePos.above();
             }
         }
         
