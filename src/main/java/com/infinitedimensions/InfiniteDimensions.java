@@ -2,13 +2,12 @@ package com.infinitedimensions;
 
 import com.infinitedimensions.crafting.InfiniteRecipeHandler;
 import com.infinitedimensions.dimension.DimensionRegistry;
-import com.infinitedimensions.events.PortalItemListener;
 import com.infinitedimensions.items.ModCreativeTabs;
 import com.infinitedimensions.items.ModItems;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.javafxmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,9 +31,6 @@ public class InfiniteDimensions {
 
         // Register dimension registry hooks
         DimensionRegistry.register(modBus);
-
-        // Register game events (portal listener, anvil handler, return handler)
-        MinecraftForge.EVENT_BUS.register(new PortalItemListener());
 
         LOGGER.info("[InfiniteDimensions] Mod initialized.");
     }

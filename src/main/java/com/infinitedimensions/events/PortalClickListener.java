@@ -53,24 +53,18 @@ public class PortalClickListener {
 
     private static void activatePortal(ServerLevel currentLevel, BlockPos portalPos, Player player) {
         try {
-            // Gerar parâmetros da dimensão
-            long seed = System.currentTimeMillis();
-            String dimensionName = NameGenerator.generate();
-            int chaosLevel = (int) (Math.random() * 5);
-            int stableLevel = (int) (Math.random() * 5);
+            // Usar ingredientes vazios para gerar dimensão aleatória
+            java.util.List<String> ingredients = new java.util.ArrayList<>();
+            java.util.List<String> names = new java.util.ArrayList<>();
 
-            DimensionParams params = new DimensionParams(
-                "dim_" + Long.toHexString(seed),
-                dimensionName,
-                seed,
-                GeneResolver.resolveGenes(chaosLevel, stableLevel)
-            );
+            // Gerar parâmetros da dimensão
+            DimensionParams params = GeneResolver.resolve(ingredients, names);
 
             InfiniteDimensions.LOGGER.info("╔══════════════════════════════════════╗");
             InfiniteDimensions.LOGGER.info("║ ✨ CRIAR NOVA DIMENSÃO ✨            ║");
             InfiniteDimensions.LOGGER.info("╠══════════════════════════════════════╣");
             InfiniteDimensions.LOGGER.info("║ Nome: {}", params.name);
-            InfiniteDimensions.LOGGER.info("║ ID: {}", params.dimensionId);
+            InfiniteDimensions.LOGGER.info("║ ID: {}", params.dimensionId());
             InfiniteDimensions.LOGGER.info("║ Seed: {}", params.seed);
             InfiniteDimensions.LOGGER.info("║ Jogador: {}", player.getName().getString());
             InfiniteDimensions.LOGGER.info("╚══════════════════════════════════════╝");
@@ -96,13 +90,13 @@ public class PortalClickListener {
             spawnActivationEffects(currentLevel, portalPos);
 
             // Calcular posição de spawn
-            BlockPos spawnPos = targetLevel.getWorldSpawnPos();
+            BlockPos spawnPos = targetLevel.getSharedSpawnPos();
             double spawnX = spawnPos.getX() + 0.5;
-            double spawnY = Math.max(spawnPos.getY(), 64); // Mínimo Y=64
+            double spawnY = spawnPos.getY() + 2;
             double spawnZ = spawnPos.getZ() + 0.5;
 
-            // Teletransportar jogador
-            player.teleportTo(targetLevel, spawnX, spawnY, spawnZ, player.getYRot(), player.getXRot());
+            // Teletransportar jogador usando player.teleportTo() para outra dimensão
+            player.teleportTo(targetLevel, spawnX, spawnY, spawnZ, java.util.Set.of(), player.getYRot(), player.getXRot());
 
             // Efeitos de chegada
             spawnArrivalEffects(targetLevel, spawnPos);
