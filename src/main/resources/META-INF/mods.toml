@@ -2,26 +2,38 @@ modLoader="javafml"
 loaderVersion="[47,)"
 license="MIT"
 
-[[mods]]
-modId="infinitedimensions"
-version="1.0.0"
-displayName="Infinite Dimensions"
-description='''
-Dimensões e crafts infinitos gerados proceduralmente.
-Jogue um Orbe de Combinação no portal do Nether para acessar
-dimensões únicas baseadas na combinação de itens e nomes.
-'''
-
-[[dependencies.infinitedimensions]]
+[[dependencies.infiniti]]
     modId="forge"
     mandatory=true
-    versionRange="[47.4,)"
+    versionRange="[47.1,)"
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.infinitedimensions]]
+[[dependencies.infiniti]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.20.1,1.21)"
     ordering="NONE"
     side="BOTH"
+
+[[mods]]
+    modId="infiniti"
+    version="1.0.0"
+    displayName="Dimensão Infiniti"
+    description='''
+Uma única dimensão de deserto infinito inspirada em Duna (Frank Herbert).
+Explore vastas dunas alaranjadas, minere recursos únicos como Especiaria e
+Pedra do Sol, sobreviva às tempestades de areia, e enfrente o lendário
+Leviatã das Areias — o verme gigante das profundezas.
+
+Itens exclusivos: Stillsuit, Vibrador de Areia, Chamador de Vermes,
+Âncora de Areia, Pílula de Especiaria e muito mais.
+
+"Quem controla a Especiaria, controla o universo."
+    '''
+    logoFile="infiniti_logo.png"
+    authors="InfinitMod Team"
+    displayURL="https://github.com/infiniti-mod"
+
+    [[mods.modproperties]]
+    thunderstormOverride = "false"
