@@ -188,10 +188,15 @@ public class PortalClickListener {
             double y = portalPos.getY() + 0.5 + (Math.random() - 0.5) * 2;
             double z = portalPos.getZ() + 0.5 + (Math.random() - 0.5) * 2;
             
+            double vx = (Math.random() - 0.5) * 0.3;
+            double vy = (Math.random() - 0.5) * 0.3;
+            double vz = (Math.random() - 0.5) * 0.3;
+            
             level.sendParticles(
-                net.minecraft.core.particles.ParticleTypes.DUST,
+                net.minecraft.core.particles.ParticleTypes.ENCHANT,
                 x, y, z,
-                1, 0, 0.1, 0, 0.3
+                1, vx, vy, vz,
+                0.5
             );
         }
 
