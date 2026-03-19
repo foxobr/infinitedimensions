@@ -16,6 +16,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import net.minecraft.world.item.Items;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,20 +68,36 @@ public class InfiniteRecipeHandler extends CustomRecipe {
     public boolean matches(CraftingContainer container, Level level) {
         int nonEmptyCount = 0;
         boolean hasCombinationOrb = false;
+        boolean hasRareItem = false;
 
         for (int i = 0; i < container.getContainerSize(); i++) {
             ItemStack stack = container.getItem(i);
             if (!stack.isEmpty()) {
                 nonEmptyCount++;
+                
                 // Não permite combinar dois orbes no mesmo craft
                 if (stack.is(ModItems.COMBINATION_ORB.get())) {
                     hasCombinationOrb = true;
                 }
+                
+                // Verifica se tem algum item "valioso"
+                if (isRareItem(stack)) {
+                    hasRareItem = true;
+                }
             }
         }
 
-        // Precisa de pelo menos 2 itens não-orbe
-        return nonEmptyCount >= 2 && !hasCombinationOrb;
+        // Regras para ativar a receita:
+        // 1. Precisa de pelo menos 3 itens (evita interferir com receitas simples de 2 itens)
+        // 2. OU ter pelo menos 1 item raro
+        // 3. NÃO pode ter CombinationOrb
+        return !hasCombinationOrb && ((nonEmptyCount >= 3) || hasRareItem);
+    }
+
+    private boolean isRareItem(ItemStack stack) {
+        return stack.is(Items.DIAMOND) || stack.is(Items.EMERALD) || 
+               stack.is(Items.GOLD_INGOT) || stack.is(Items.NETHERITE_INGOT) ||
+               stack.is(Items.AMETHYST_SHARD) || stack.is(Items.ECHO_SHARD);
     }
 
     @Override

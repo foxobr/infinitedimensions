@@ -52,7 +52,10 @@ public class PortalItemListener {
         tickCounter = 0;
 
         MinecraftServer server = event.getServer();
+        if (server == null) return;
+        
         ServerLevel overworld  = server.overworld();
+        if (overworld == null) return;
 
         // Busca todos os ItemEntity no overworld
         List<ItemEntity> itemEntities = overworld.getEntitiesOfClass(
@@ -61,19 +64,17 @@ public class PortalItemListener {
                 -30_000_000, -64, -30_000_000,
                  30_000_000, 320,  30_000_000
             ),
-            ie -> !ie.isRemoved() && isOrbInPortal(ie, overworld)
+            ie -> !ie.isRemoved() && ie.getItem().is(ModItems.COMBINATION_ORB.get())
         );
 
         for (ItemEntity ie : itemEntities) {
-            handleOrbInPortal(server, overworld, ie);
+            if (isOrbInPortal(ie, overworld)) {
+                handleOrbInPortal(server, overworld, ie);
+            }
         }
     }
 
     private boolean isOrbInPortal(ItemEntity ie, ServerLevel level) {
-        // Verifica se o item é um CombinationOrb
-        if (!ie.getItem().is(ModItems.COMBINATION_ORB.get())) return false;
-
-        // Verifica se o bloco onde o item está é um portal do Nether
         BlockPos pos = ie.blockPosition();
         return level.getBlockState(pos).is(Blocks.NETHER_PORTAL);
     }
@@ -82,14 +83,21 @@ public class PortalItemListener {
         ItemStack orb = ie.getItem();
         List<String> ingredients = CombinationOrb.getIngredients(orb);
         List<String> names       = CombinationOrb.getCustomNames(orb);
+        BlockPos portalPos = ie.blockPosition();
+
+        InfiniteDimensions.LOGGER.info("[PortalItemListener] Orb detected in portal!");
+        InfiniteDimensions.LOGGER.info("  - Ingredients: {}", ingredients);
+        InfiniteDimensions.LOGGER.info("  - Custom Names: {}", names);
 
         if (ingredients.isEmpty() && names.isEmpty()) {
             // Orbe sem combinação — deixa passar normalmente para o Nether
+            InfiniteDimensions.LOGGER.info("[PortalItemListener] Orb has no ingredients/names - passing through");
             return;
         }
 
         // Resolve parâmetros da dimensão
         DimensionParams params = GeneResolver.resolve(ingredients, names);
+        InfiniteDimensions.LOGGER.info("[PortalItemListener] Dimension params resolved: {}", params.name);
 
         // Obtém (ou cria) a dimensão
         ResourceKey<Level> dimKey = DimensionRegistry.getOrCreateDimension(server, params);
@@ -101,6 +109,9 @@ public class PortalItemListener {
             return;
         }
 
+        // ── Efeitos visuais ──
+        spawnPortalActivationEffects(overworld, portalPos);
+
         // Remove o item consumido
         ie.discard();
 
@@ -109,11 +120,12 @@ public class PortalItemListener {
         CombinationOrb.setDimensionName(orb, params.name);
 
         // Teleporta todos os jogadores dentro ou próximos do portal
-        BlockPos portalPos = ie.blockPosition();
         List<ServerPlayer> nearbyPlayers = overworld.getEntitiesOfClass(
             ServerPlayer.class,
             new AABB(portalPos).inflate(4.0)
         );
+
+        InfiniteDimensions.LOGGER.info("[PortalItemListener] Found {} nearby players", nearbyPlayers.size());
 
         for (ServerPlayer player : nearbyPlayers) {
             teleportPlayerToDimension(player, targetLevel, params, portalPos);
@@ -123,10 +135,55 @@ public class PortalItemListener {
             params.name, params.seed, portalPos);
     }
 
+    private void spawnPortalActivationEffects(ServerLevel level, BlockPos portalPos) {
+        // Partículas roxas ao redor do portal
+        for (int i = 0; i < 30; i++) {
+            double x = portalPos.getX() + 0.5 + (Math.random() - 0.5) * 3;
+            double y = portalPos.getY() + 0.5 + (Math.random() - 0.5) * 3;
+            double z = portalPos.getZ() + 0.5 + (Math.random() - 0.5) * 3;
+            
+            double vx = (Math.random() - 0.5) * 0.4;
+            double vy = (Math.random() - 0.5) * 0.4;
+            double vz = (Math.random() - 0.5) * 0.4;
+            
+            level.sendParticles(
+                net.minecraft.core.particles.ParticleTypes.PORTAL,
+                x, y, z,
+                1, vx, vy, vz,
+                0.8
+            );
+        }
+
+        // Som de ativação
+        level.playSound(
+            null,
+            portalPos.getX() + 0.5,
+            portalPos.getY() + 0.5,
+            portalPos.getZ() + 0.5,
+            net.minecraft.sounds.SoundEvents.PORTAL_TRIGGER,
+            net.minecraft.sounds.SoundSource.BLOCKS,
+            1.0f, 1.0f
+        );
+    }
+
     private void teleportPlayerToDimension(ServerPlayer player, ServerLevel targetLevel,
                                             DimensionParams params, BlockPos portalPos) {
         // Ponto de spawn na dimensão: centro do chunk 0,0, acima do terreno
         BlockPos spawnPos = findSafeSpawn(targetLevel);
+
+        // Efeito antes de teleportar
+        double px = player.getX();
+        double py = player.getY();
+        double pz = player.getZ();
+        for (int i = 0; i < 20; i++) {
+            double x = px + (Math.random() - 0.5) * 2;
+            double y = py + (Math.random() - 0.5) * 2;
+            double z = pz + (Math.random() - 0.5) * 2;
+            player.level().sendParticles(
+                net.minecraft.core.particles.ParticleTypes.PORTAL,
+                x, y, z, 1, 0, 0, 0, 0.5
+            );
+        }
 
         // Teleporta o jogador
         player.teleportTo(
@@ -138,9 +195,35 @@ public class PortalItemListener {
             player.getXRot()
         );
 
+        // Efeito após teleporte na nova dimensão
+        for (int i = 0; i < 25; i++) {
+            double x = spawnPos.getX() + 0.5 + (Math.random() - 0.5) * 2;
+            double y = spawnPos.getY() + 1.0 + (Math.random() - 0.5) * 2;
+            double z = spawnPos.getZ() + 0.5 + (Math.random() - 0.5) * 2;
+            targetLevel.sendParticles(
+                net.minecraft.core.particles.ParticleTypes.END_ROD,
+                x, y, z, 1, 0, 0, 0, 0.5
+            );
+        }
+
+        // Som na partida
+        player.level().playSound(
+            null,
+            player.getX(), player.getY(), player.getZ(),
+            net.minecraft.sounds.SoundEvents.ENDERMAN_TELEPORT,
+            net.minecraft.sounds.SoundSource.PLAYERS,
+            1.0f, 1.2f
+        );
+
         // Notifica o jogador
         player.displayClientMessage(
-            Component.literal("§6» §fEntrando em §e" + params.name + "§f..."),
+            Component.literal("§6✓ §fBem-vindo a §e" + params.name + "§f! §7(" + params.seed + ")"),
+            false
+        );
+        player.displayClientMessage(
+            Component.literal("§7Genes: §cCaos§7/" + params.sourceGenes.get("chaos") + 
+                            " §2Natureza§7/" + params.sourceGenes.get("nature") +
+                            " §3Frio§7/" + params.sourceGenes.get("cold")),
             true
         );
 
