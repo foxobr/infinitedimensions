@@ -11,6 +11,19 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
+compileJava {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    options.release = 17
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    options.release = 17
+}
+
 minecraft {
     mappings channel: 'official', version: '1.20.1'
 
