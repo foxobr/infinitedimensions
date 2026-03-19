@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "infiniti:item/dune_pickaxe"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "_comment": "Tradução PT-BR — Dimensão Infiniti",
+
+  "itemGroup.infiniti.main": "Dimensão Infiniti",
+
+  "block.infiniti.dune_sand":         "Areia das Dunas",
+  "block.infiniti.dune_sandstone":    "Arenito das Dunas",
+  "block.infiniti.hardened_sand":     "Areia Endurecida",
+  "block.infiniti.spice_soil":        "Solo de Especiaria",
+  "block.infiniti.salt_flat":         "Planície de Sal",
+  "block.infiniti.volcanic_rock":     "Rocha Vulcânica",
+  "block.infiniti.sunstone_ore":      "Minério de Pedra do Sol",
+  "block.infiniti.spice_ore":         "Minério de Especiaria",
+  "block.infiniti.dune_iron_ore":     "Minério de Ferro das Dunas",
+  "block.infiniti.bone_crystal_ore":  "Minério de Cristal Ósseo",
+  "block.infiniti.thermite_ore":      "Minério de Termita",
+  "block.infiniti.sandforge_block":   "Sandforge",
+  "block.infiniti.spice_block":       "Bloco de Especiaria",
+  "block.infiniti.worm_fossil":       "Fóssil de Verme",
+
+  "item.infiniti.sunstone_crystal":   "Cristal de Pedra do Sol",
+  "item.infiniti.spice_dust":         "Pó de Especiaria",
+  "item.infiniti.raw_dune_iron":      "Ferro das Dunas Bruto",
+  "item.infiniti.bone_crystal_shard": "Estilhaço de Cristal Ósseo",
+  "item.infiniti.thermite_powder":    "Pó de Termita",
+  "item.infiniti.dune_ingot":         "Lingote das Dunas",
+  "item.infiniti.bone_crystal_ingot": "Lingote de Cristal Ósseo",
+  "item.infiniti.thermite_charge":    "Carga de Termita",
+  "item.infiniti.sunstone_wafer":     "Lâmina de Pedra do Sol",
+  "item.infiniti.spice_essence":      "Essência de Especiaria",
+  "item.infiniti.desert_compass":     "Bússola do Deserto",
+  "item.infiniti.sand_flask":         "Frasco de Areia",
+  "item.infiniti.spice_pill":         "Pílula de Especiaria",
+  "item.infiniti.thumper_device":     "Vibrador de Areia",
+  "item.infiniti.worm_caller":        "Chamador de Vermes",
+  "item.infiniti.dune_map":           "Mapa das Dunas",
+  "item.infiniti.sand_anchor":        "Âncora de Areia",
+  "item.infiniti.stillsuit_helmet":   "Capacete Stillsuit",
+  "item.infiniti.stillsuit_chestplate": "Peitoral Stillsuit",
+  "item.infiniti.stillsuit_leggings": "Calças Stillsuit",
+  "item.infiniti.stillsuit_boots":    "Botas Stillsuit",
+  "item.infiniti.dune_pickaxe":       "Picareta das Dunas",
+  "item.infiniti.dune_sword":         "Espada das Dunas",
+  "item.infiniti.dune_shovel":        "Pá das Dunas",
+  "item.infiniti.sandcrawler_chitin": "Quitina de Rastejador de Areia",
+  "item.infiniti.leviathan_scale":    "Escama do Leviatã",
+  "item.infiniti.dune_hawk_feather":  "Pena do Falcão das Dunas",
+  "item.infiniti.scavenger_token":    "Ficha de Sucateiro",
+  "item.infiniti.infiniti_portal_key":"Chave do Portal Infiniti",
+
+  "entity.infiniti.dune_mouse":       "Rato das Dunas",
+  "entity.infiniti.sand_beetle":      "Besouro de Areia",
+  "entity.infiniti.dune_hawk":        "Falcão das Dunas",
+  "entity.infiniti.sand_camel":       "Camelo de Areia",
+  "entity.infiniti.dune_scavenger":   "Sucateiro das Dunas",
+  "entity.infiniti.sand_crawler":     "Rastejador de Areia",
+  "entity.infiniti.sand_shade":       "Sombra de Areia",
+  "entity.infiniti.sand_leviathan":   "Leviatã das Areias",
+
+  "container.infiniti.sandforge":     "Sandforge",
+
+  "infiniti.sandforge.hint":          "§6[Sandforge] Coloque minérios ou materiais para forjar. Combustível: Especiaria ou Lingote das Dunas.",
+
+  "infiniti.thumper.wrong_dimension": "§cO Vibrador de Areia só funciona na Dimensão Infiniti.",
+  "infiniti.thumper.placed":          "§6Vibrador colocado! Os Rastejadores vão sentir...",
+
+  "infiniti.wormcaller.wrong_dimension": "§cO Chamador de Vermes só funciona na Dimensão Infiniti.",
+  "infiniti.wormcaller.charging":     "§6Carregando o chamado... segure firme.",
+  "infiniti.wormcaller.summoned":     "§4O chão treme. Algo imenso se aproxima das profundezas...",
+
+  "infiniti.anchor.activated":        "§6Âncora ativada. Fique imóvel.",
+  "infiniti.anchor.deactivated":      "§eÂncora desativada. Cuidado ao se mover.",
+
+  "infiniti.spice.overdose":          "§4Muita Especiaria de uma vez... sua visão distorce.",
+  "infiniti.sand_flask.drank":        "§bO líquido filtrado alivia a sede do deserto.",
+
+  "infiniti.portal.entering":         "§6As areias douradas chamam...",
+  "infiniti.portal.returning":        "§eVocê emerge de volta ao mundo.",
+  "infiniti.portal.not_loaded":       "§cPortal não disponível. Contate o administrador.",
+
+  "infiniti.dimension.welcome":       "§6§lBem-vindo à Dimensão Infiniti.§r\n§eTerre firme: o deserto eterno se estende ao infinito.",
+
+  "infiniti.thirst.warning":          "§c§oVocê sente sede intensa... beba do Frasco de Areia.",
+  "infiniti.sandstorm.starting":      "§6§lTEMPESTADE DE AREIA! §rProcure abrigo imediatamente!",
+  "infiniti.sandstorm.ended":         "§eA tempestade passou. As dunas repousam por ora.",
+
+  "infiniti.leviathan.swallowed":     "§4O Leviatã das Areias te consumiu! Use a Âncora de Areia para se proteger.",
+
+  "infiniti.stillsuit.helmet.tooltip":     "§7Filtra areia. Protege em tempestades.",
+  "infiniti.stillsuit.chestplate.tooltip": "§7Destila umidade. Reduz sede.",
+  "infiniti.stillsuit.leggings.tooltip":   "§7Passos silenciosos. Vermes te ignoram.",
+  "infiniti.stillsuit.boots.tooltip":      "§7Flutua na areia solta."
+}
